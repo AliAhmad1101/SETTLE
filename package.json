@@ -1,0 +1,17 @@
+{
+  "name": "settle",
+  "version": "1.0.0",
+  "description": "SETTLE: an AI payment reconciliation agent for the Razorpay Buildathon",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "generate-data": "node scripts/generate-demo-data.js",
+    "embed-data": "node scripts/embed-demo-data.js"
+  },
+  "keywords": ["razorpay", "reconciliation", "payments", "ai"],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

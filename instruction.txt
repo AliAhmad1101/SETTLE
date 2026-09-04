@@ -1,0 +1,2545 @@
+# MASTER BUILD PROMPT — RAZORPAY OPEN TRACK
+
+## PROJECT: SETTLE — Autonomous AI Payment Reconciliation Agent
+
+You are a senior full-stack engineer, product designer, AI engineer, and hackathon builder.
+
+Your task is to build a **complete, polished, working MVP called “SETTLE”** for the **Razorpay Buildathon — Track 05: Open Track**.
+
+The product must be sufficiently complete to demo publicly, must have a meaningful use of AI, and must solve a real operational problem.
+
+The entire MVP should be realistically buildable by a small team in **one intensive day**.
+
+Do NOT build a superficial chatbot.
+
+Build an actual AI-powered workflow where the AI receives transaction/order data, analyzes it, identifies problems, explains them, and recommends or prepares actions.
+
+---
+
+# 1. BUILDATHON TRACK
+
+Track:
+
+**Track 05 — Open Track**
+
+Theme:
+
+**Build what you believe should exist.**
+
+The project must demonstrate:
+
+* A real problem
+* A working product
+* Meaningful use of AI
+* Clear user value
+* Reliable execution
+* A convincing 5-minute demonstration
+* Public GitHub repository
+* A clear explanation of what broke and how it was fixed
+
+---
+
+# 2. PRODUCT NAME
+
+## SETTLE
+
+### Tagline
+
+**Your payments should reconcile themselves.**
+
+Alternative UI subheading:
+
+**An AI agent that finds payment mismatches, explains why they happened, and tells you what to do next.**
+
+Do not over-brand the application.
+
+The product should feel like a serious modern fintech operations tool.
+
+---
+
+# 3. THE PROBLEM
+
+Small businesses, student startups, D2C businesses, freelancers, agencies, and early-stage companies often receive payments digitally.
+
+However, payment collection and business records can become disconnected.
+
+For example:
+
+A business may have:
+
+Order #1042
+₹1,999
+Customer: Rahul
+Expected payment: ₹1,999
+
+Payment records may contain:
+
+Payment ID: pay_xxxx
+Amount: ₹1,999
+Status: Captured
+
+Another order might contain:
+
+Order #1043
+₹2,499
+Expected payment: ₹2,499
+
+But the payment system could contain:
+
+₹2,499
+Reference associated with another order
+
+Or:
+
+* Payment captured but order marked unpaid
+* Order cancelled but payment captured
+* Duplicate payment
+* Partial payment
+* Payment amount mismatch
+* Refund issued but internal record still shows paid
+* Payment exists without a matching order
+* Order exists without a matching payment
+* Failed payment incorrectly treated as successful
+
+Finding these manually is tedious.
+
+The real problem is not simply:
+
+“Where is my payment?”
+
+The real problem is:
+
+**“What happened to my money/order, why doesn't my record match, and what should I do about it?”**
+
+---
+
+# 4. THE SOLUTION
+
+SETTLE is an AI-powered reconciliation agent.
+
+The user uploads or imports two datasets:
+
+### Dataset A — Payments
+
+Example:
+
+* payment_id
+* order_id
+* amount
+* status
+* customer
+* timestamp
+* refund_amount
+
+### Dataset B — Orders
+
+Example:
+
+* order_id
+* customer
+* expected_amount
+* order_status
+* order_date
+
+SETTLE automatically:
+
+1. Reads the datasets
+2. Normalizes the records
+3. Matches payments with orders
+4. Detects discrepancies
+5. Classifies discrepancies
+6. Uses AI to explain suspicious cases
+7. Assigns a severity
+8. Recommends the next action
+9. Generates a reconciliation summary
+10. Lets the user inspect individual cases
+
+The AI must behave like an **operations agent**, not merely an assistant.
+
+---
+
+# 5. IMPORTANT AI REQUIREMENT
+
+AI must perform meaningful work.
+
+DO NOT simply create:
+
+“Ask our AI anything about your payments.”
+
+Instead, AI should actively analyze structured business data.
+
+The deterministic system should first calculate factual discrepancies.
+
+Then the AI should:
+
+* interpret the discrepancy
+* classify the likely issue
+* explain it in human language
+* recommend an action
+* generate a concise resolution note
+
+For example:
+
+Input:
+
+Order:
+ORD-1042
+Expected: ₹2,499
+Status: Paid
+
+Payment:
+pay_9182
+Amount: ₹2,499
+Status: Captured
+
+But payment is associated with ORD-1041.
+
+AI output:
+
+**Possible mislinked payment**
+
+“This payment amount exactly matches ORD-1042, but the payment reference is associated with ORD-1041. Verify the payment reference before updating the order.”
+
+Recommended action:
+
+**Review payment mapping**
+
+Severity:
+
+**Medium**
+
+This demonstrates genuine AI reasoning over application data.
+
+---
+
+# 6. PRODUCT PERSONA
+
+Target users:
+
+* Small businesses
+* D2C founders
+* Freelancers
+* Agencies
+* Online sellers
+* Startup finance/operations teams
+
+Do NOT target large enterprises in the MVP.
+
+The product should communicate:
+
+“I have 500 payments and I don't want to manually check them.”
+
+---
+
+# 7. CORE PRODUCT FLOW
+
+The entire application must revolve around this flow:
+
+LOGIN / DEMO
+
+↓
+
+DASHBOARD
+
+↓
+
+IMPORT DATA
+
+↓
+
+RECONCILE
+
+↓
+
+AI ANALYSIS
+
+↓
+
+ISSUES
+
+↓
+
+CASE DETAILS
+
+↓
+
+RESOLUTION
+
+↓
+
+REPORT
+
+The user must be able to complete this entire journey during the demo.
+
+---
+
+# 8. MVP FEATURES
+
+Implement these features completely.
+
+## FEATURE 1 — Dashboard
+
+Display:
+
+Total Payments
+
+₹1,24,850
+
+Orders
+
+127
+
+Matched
+
+108
+
+Issues
+
+14
+
+Unresolved
+
+5
+
+Refunds
+
+₹8,450
+
+Then display:
+
+### Reconciliation Health
+
+For example:
+
+92%
+
+Healthy
+
+Use a clean visual indicator.
+
+---
+
+# 9. DASHBOARD — AI SUMMARY
+
+Create an AI-generated summary card.
+
+Example:
+
+### AI Reconciliation Summary
+
+“127 orders were compared against 122 payment records.
+
+108 records matched automatically.
+
+14 discrepancies require attention.
+
+The largest issue is 6 captured payments linked to cancelled orders.
+
+₹18,450 may require review.”
+
+Add:
+
+**View issues →**
+
+This should be generated dynamically from the current dataset.
+
+---
+
+# 10. ISSUE CATEGORIES
+
+Support at minimum:
+
+### Missing Payment
+
+Order exists but no matching successful payment exists.
+
+### Missing Order
+
+Payment exists but no corresponding order exists.
+
+### Amount Mismatch
+
+Payment amount differs from expected order amount.
+
+### Duplicate Payment
+
+Multiple payments appear associated with the same order.
+
+### Cancelled Order Paid
+
+Payment captured for a cancelled order.
+
+### Refund Mismatch
+
+Refund information does not match the expected state.
+
+### Incorrect Status
+
+Payment/order statuses conflict.
+
+### Suspicious Mapping
+
+Payment appears linked to the wrong order.
+
+---
+
+# 11. SEVERITY
+
+Each issue should have:
+
+LOW
+
+MEDIUM
+
+HIGH
+
+CRITICAL
+
+Use logical rules to determine the initial severity.
+
+AI may refine the explanation but MUST NOT invent financial facts.
+
+---
+
+# 12. ISSUE TABLE
+
+Create a professional table:
+
+| Issue | Order | Amount | Type | Severity | AI Recommendation | Status |
+| ----- | ----- | ------ | ---- | -------- | ----------------- | ------ |
+
+Example:
+
+Amount mismatch
+ORD-1043
+₹2,499
+Expected ₹2,999
+High
+Review payment
+Open
+
+Rows should be clickable.
+
+---
+
+# 13. ISSUE DETAIL PAGE / PANEL
+
+When the user clicks an issue, display:
+
+### Issue
+
+Amount mismatch
+
+### Order
+
+ORD-1043
+
+### Customer
+
+Rahul Sharma
+
+### Expected amount
+
+₹2,999
+
+### Received
+
+₹2,499
+
+### Difference
+
+₹500
+
+### Payment
+
+pay_x82ks91
+
+### Status
+
+Captured
+
+Then:
+
+## AI Investigation
+
+The AI should provide:
+
+### What happened?
+
+The payment was successfully captured, but the received amount is ₹500 lower than the expected order amount.
+
+### Why it matters
+
+The order may have been partially paid or the internal order amount may be incorrect.
+
+### Recommended action
+
+Verify whether a discount or partial payment was intentionally applied.
+
+### Confidence
+
+87%
+
+Then buttons:
+
+**Mark Reviewed**
+
+**Add Note**
+
+**Resolve**
+
+---
+
+# 14. AI AGENT PANEL
+
+Create a right-side or dedicated AI agent interface.
+
+Title:
+
+**SETTLE Agent**
+
+Subtitle:
+
+**Payment operations copilot**
+
+The AI should understand the currently loaded dataset.
+
+Example user queries:
+
+“Why is reconciliation unhealthy?”
+
+“Show me the highest-value issues.”
+
+“Which payments need immediate attention?”
+
+“Explain ORD-1043.”
+
+“How much money is currently unresolved?”
+
+“What are the most common reconciliation failures?”
+
+“Give me a summary I can send to my finance team.”
+
+The agent should answer using the application dataset.
+
+---
+
+# 15. AGENT BEHAVIOR
+
+The agent must NOT hallucinate.
+
+If the data does not contain an answer:
+
+Say:
+
+“I don't have enough information in the current dataset to determine that.”
+
+Do not invent:
+
+* transaction IDs
+* customers
+* amounts
+* refunds
+* dates
+* statuses
+
+The agent should reference actual records.
+
+---
+
+# 16. AGENT TOOLS
+
+Implement an internal tool-like architecture.
+
+Create functions such as:
+
+get_reconciliation_summary()
+
+get_issue_list()
+
+get_issue_details(issueId)
+
+get_order(orderId)
+
+get_payment(paymentId)
+
+calculate_unresolved_amount()
+
+get_high_value_issues()
+
+get_issue_breakdown()
+
+generate_finance_summary()
+
+The AI should decide which function/data it needs before generating its answer.
+
+Even if the actual implementation is simplified, architect it as an agent using tools.
+
+This is important for the hackathon pitch.
+
+---
+
+# 17. DATA IMPORT
+
+Support CSV upload.
+
+The user should be able to upload:
+
+payments.csv
+
+orders.csv
+
+The application should parse the files.
+
+Also include:
+
+**Load Demo Dataset**
+
+This is essential.
+
+The demo dataset must contain deliberately designed realistic problems.
+
+---
+
+# 18. DEMO DATASET
+
+Create at least:
+
+100 orders
+
+100+ payment records
+
+Include realistic discrepancies.
+
+Create cases such as:
+
+* 8 missing payments
+* 5 amount mismatches
+* 4 duplicate payments
+* 3 cancelled-order payments
+* 3 missing orders
+* 2 refund mismatches
+
+Use realistic Indian Rupee amounts.
+
+Examples:
+
+₹499
+
+₹799
+
+₹999
+
+₹1,299
+
+₹1,499
+
+₹1,999
+
+₹2,499
+
+₹4,999
+
+₹7,999
+
+₹12,499
+
+Do not make every amount round.
+
+---
+
+# 19. DATA GENERATOR
+
+Create:
+
+scripts/generate-demo-data.js
+
+It should generate the demo CSV files.
+
+Make the generated data deterministic where possible so the demo remains consistent.
+
+---
+
+# 20. RECONCILIATION ENGINE
+
+Implement a deterministic reconciliation engine.
+
+Suggested matching strategy:
+
+1. Exact order_id match
+2. Payment status validation
+3. Amount comparison
+4. Duplicate detection
+5. Refund comparison
+6. Status consistency
+7. Unmatched record detection
+
+Do NOT rely on the LLM for arithmetic or basic matching.
+
+The code must calculate:
+
+* totals
+* differences
+* counts
+* statuses
+
+AI should interpret the results.
+
+---
+
+# 21. AI ARCHITECTURE
+
+Use an LLM API through a secure backend.
+
+Never expose API keys in frontend code.
+
+Create:
+
+backend/services/aiAgent.js
+
+Responsibilities:
+
+* construct context
+* call model
+* parse response
+* return structured AI output
+
+The AI response should preferably use structured JSON.
+
+Example:
+
+{
+"classification": "amount_mismatch",
+"severity": "high",
+"explanation": "...",
+"recommended_action": "...",
+"confidence": 0.87
+}
+
+Validate the response before displaying it.
+
+---
+
+# 22. AI PROMPT
+
+The system prompt should establish:
+
+“You are SETTLE, an AI payment reconciliation operations agent.
+
+You analyze verified transaction and order records.
+
+Never invent financial information.
+
+Only make claims supported by provided data.
+
+Use deterministic reconciliation results as the source of truth.
+
+Your role is to explain discrepancies, identify likely causes, prioritize issues, and recommend operational next steps.
+
+Do not modify transactions.
+
+Do not claim that a payment was refunded, captured, failed, or reversed unless the supplied data explicitly indicates it.
+
+When uncertain, clearly state uncertainty.”
+
+---
+
+# 23. OPTIONAL ACTION AGENT
+
+Implement a safe action workflow.
+
+The AI can prepare an action but should not silently execute financial actions.
+
+Example:
+
+AI recommendation:
+
+“Mark ORD-1043 for manual review.”
+
+Button:
+
+**Apply Recommendation**
+
+This should update only the application's local reconciliation status.
+
+Do NOT build real-money refund functionality for the one-day MVP.
+
+The demo should emphasize:
+
+**AI prepares the decision; humans approve the action.**
+
+---
+
+# 24. RAZORPAY INTEGRATION
+
+If practical within the one-day build:
+
+Implement an optional Razorpay integration layer.
+
+Create:
+
+backend/services/razorpay.js
+
+Support fetching relevant payment/order information using Razorpay's official API where credentials are available.
+
+The architecture should allow:
+
+Demo CSV mode
+
+OR
+
+Razorpay API mode
+
+The application must work completely without Razorpay credentials.
+
+This is critical.
+
+The demo must NEVER break because credentials are unavailable.
+
+Display:
+
+### Data Source
+
+Demo Dataset
+
+or
+
+Razorpay
+
+If Razorpay credentials are configured, allow the user to switch to live/test data.
+
+Use TEST MODE where appropriate.
+
+Never hard-code secrets.
+
+Use environment variables.
+
+---
+
+# 25. SECURITY
+
+Create:
+
+.env.example
+
+Example:
+
+AI_API_KEY=
+
+RAZORPAY_KEY_ID=
+
+RAZORPAY_KEY_SECRET=
+
+Do NOT commit .env.
+
+Create a strong .gitignore.
+
+Never put secrets in frontend JavaScript.
+
+---
+
+# 26. DESIGN DIRECTION
+
+The interface must look like a premium fintech operations product.
+
+Avoid:
+
+* generic SaaS templates
+* excessive gradients
+* excessive rounded cards
+* giant illustrations
+* unnecessary animations
+* chatbot-looking interfaces
+* excessive colors
+* clutter
+
+Use:
+
+* off-white/light background
+* near-black typography
+* subtle borders
+* restrained accent color
+* compact cards
+* dense but readable tables
+* strong hierarchy
+* excellent spacing
+
+Think:
+
+Stripe Dashboard
+
+Linear
+
+Vercel
+
+Ramp
+
+Modern fintech operations software
+
+But DO NOT copy any company's visual design.
+
+---
+
+# 27. COLOR SYSTEM
+
+Use:
+
+Background:
+#F7F7F5
+
+Primary:
+#111111
+
+Secondary text:
+#6B6B67
+
+Borders:
+#E5E5E0
+
+Success:
+#18794E
+
+Warning:
+#A16207
+
+Danger:
+#B42318
+
+Use color sparingly.
+
+---
+
+# 28. TYPOGRAPHY
+
+Use a modern sans-serif.
+
+Prefer:
+
+Inter
+
+or another clean system/UI font.
+
+Hierarchy:
+
+Large dashboard metric
+
+32px
+
+Section heading
+
+20–24px
+
+Body
+
+14–15px
+
+Table
+
+13–14px
+
+Metadata
+
+12px
+
+---
+
+# 29. LAYOUT
+
+Desktop-first.
+
+Minimum supported viewport:
+
+1280 × 720
+
+Optimized demo viewport:
+
+1440 × 900
+
+No horizontal scrolling.
+
+Avoid unnecessary page scrolling.
+
+The dashboard should fit as much useful information above the fold as possible.
+
+Responsive behavior may be added, but desktop quality has priority.
+
+---
+
+# 30. NAVIGATION
+
+Sidebar:
+
+SETTLE logo
+
+Overview
+
+Reconcile
+
+Issues
+
+Payments
+
+Orders
+
+AI Agent
+
+Reports
+
+Settings
+
+Bottom:
+
+Demo Mode
+
+Data source indicator
+
+User profile
+
+---
+
+# 31. TOP BAR
+
+Top bar:
+
+Page title
+
+Date range
+
+Data source
+
+Last reconciled
+
+Refresh button
+
+AI Agent button
+
+---
+
+# 32. PAGES
+
+Implement:
+
+/dashboard
+
+/reconcile
+
+/issues
+
+/payments
+
+/orders
+
+/agent
+
+/reports
+
+/settings
+
+A simple SPA routing system is acceptable.
+
+Do NOT create unnecessary complexity.
+
+---
+
+# 33. RECONCILE PAGE
+
+Show:
+
+Data source
+
+Upload Orders
+
+Upload Payments
+
+or
+
+Load Demo Dataset
+
+Then:
+
+### Reconciliation Preview
+
+Orders detected:
+
+127
+
+Payments detected:
+
+122
+
+Records matched:
+
+108
+
+Potential issues:
+
+14
+
+Button:
+
+**Run Reconciliation**
+
+After running:
+
+Show progress.
+
+Then:
+
+**Analysis complete**
+
+---
+
+# 34. REPORT PAGE
+
+Generate:
+
+### Reconciliation Report
+
+Period
+
+Total orders
+
+Total payments
+
+Matched records
+
+Unmatched records
+
+Total discrepancies
+
+Unresolved amount
+
+Refund amount
+
+Issue breakdown
+
+Then:
+
+### AI Executive Summary
+
+A short paragraph explaining the overall situation.
+
+Button:
+
+**Copy Report**
+
+Optional:
+
+**Export CSV**
+
+---
+
+# 35. PAYMENT PAGE
+
+Display:
+
+Payment ID
+
+Order ID
+
+Amount
+
+Status
+
+Customer
+
+Date
+
+Refund
+
+Match status
+
+Search and filtering.
+
+---
+
+# 36. ORDERS PAGE
+
+Display:
+
+Order ID
+
+Customer
+
+Expected amount
+
+Order status
+
+Payment status
+
+Difference
+
+Reconciliation status
+
+---
+
+# 37. FILTERS
+
+Implement useful filters:
+
+All
+
+Open
+
+Reviewed
+
+Resolved
+
+High severity
+
+Amount mismatch
+
+Missing payment
+
+Duplicate
+
+Refund
+
+Cancelled order
+
+---
+
+# 38. SEARCH
+
+Global search should search:
+
+Order ID
+
+Payment ID
+
+Customer
+
+Issue type
+
+The AI agent should also be able to locate records.
+
+---
+
+# 39. EXPLAINABILITY
+
+Every AI-generated investigation should clearly distinguish:
+
+### Verified data
+
+Facts directly from records.
+
+### AI interpretation
+
+Possible explanation.
+
+### Recommended action
+
+Suggested human next step.
+
+This increases trust.
+
+---
+
+# 40. TRUST DESIGN
+
+Add a small label:
+
+**AI-generated recommendation**
+
+And:
+
+**Financial records are calculated by SETTLE's reconciliation engine.**
+
+This communicates that AI is not responsible for core arithmetic.
+
+---
+
+# 41. DEMO MODE
+
+Add:
+
+**Demo Mode**
+
+The user can instantly load the prepared dataset.
+
+This must be the fastest path to the product's wow moment.
+
+The first-time experience should allow:
+
+Open app
+
+↓
+
+Load Demo Dataset
+
+↓
+
+Run Reconciliation
+
+↓
+
+See problems
+
+↓
+
+Ask AI
+
+↓
+
+Resolve one issue
+
+within approximately 60–90 seconds.
+
+---
+
+# 42. THE WOW MOMENT
+
+The demo must contain a deliberate “wow” moment.
+
+Example:
+
+The dashboard says:
+
+**₹31,450 requires attention**
+
+User clicks:
+
+**Ask SETTLE**
+
+User asks:
+
+“What's the most urgent problem?”
+
+AI responds:
+
+“Three high-severity cases involve captured payments associated with cancelled orders. Together they represent ₹18,497. These should be manually verified before any refund or order-status change.”
+
+Then user asks:
+
+“Show me those cases.”
+
+The agent returns the exact records.
+
+Then:
+
+“Explain the largest one.”
+
+The agent opens the corresponding issue.
+
+This demonstrates:
+
+DATA → REASONING → ACTION
+
+---
+
+# 43. AGENT MEMORY / CONTEXT
+
+The agent should know the current reconciliation session.
+
+For example:
+
+User:
+
+“How much is unresolved?”
+
+Then:
+
+“What is the biggest one?”
+
+Then:
+
+“Why?”
+
+The agent should understand the context without requiring the user to repeat the order ID.
+
+Implement a lightweight session context.
+
+---
+
+# 44. ERROR HANDLING
+
+The application must gracefully handle:
+
+Invalid CSV
+
+Missing columns
+
+Empty files
+
+API failure
+
+AI timeout
+
+Invalid AI response
+
+Razorpay unavailable
+
+No data loaded
+
+Duplicate records
+
+Network failure
+
+Show human-readable error messages.
+
+Never show raw stack traces to normal users.
+
+---
+
+# 45. OFFLINE / FALLBACK AI
+
+Create a fallback system for demo reliability.
+
+If AI API is unavailable:
+
+Use deterministic explanation templates.
+
+Example:
+
+“Payment amount differs from expected order amount by ₹500. Manual review is recommended.”
+
+The UI should still work.
+
+Clearly label:
+
+**AI unavailable — using rule-based explanation**
+
+This prevents a failed API call from destroying the demo.
+
+---
+
+# 46. FILE STRUCTURE
+
+Use a clean structure similar to:
+
+settle/
+│
+├── README.md
+├── LICENSE
+├── .gitignore
+├── .env.example
+├── package.json
+│
+├── frontend/
+│   ├── index.html
+│   ├── assets/
+│   ├── css/
+│   │   ├── reset.css
+│   │   ├── variables.css
+│   │   ├── components.css
+│   │   └── app.css
+│   │
+│   └── js/
+│       ├── app.js
+│       ├── router.js
+│       ├── state.js
+│       ├── api.js
+│       ├── ui.js
+│       ├── dashboard.js
+│       ├── reconcile.js
+│       ├── issues.js
+│       ├── payments.js
+│       ├── orders.js
+│       ├── agent.js
+│       └── reports.js
+│
+├── backend/
+│   ├── server.js
+│   │
+│   ├── routes/
+│   │   ├── reconciliation.js
+│   │   ├── ai.js
+│   │   ├── payments.js
+│   │   └── orders.js
+│   │
+│   ├── services/
+│   │   ├── reconciliationEngine.js
+│   │   ├── aiAgent.js
+│   │   ├── razorpay.js
+│   │   └── reportGenerator.js
+│   │
+│   ├── utils/
+│   │   ├── csvParser.js
+│   │   ├── validators.js
+│   │   └── calculations.js
+│   │
+│   └── data/
+│       ├── demo-orders.csv
+│       └── demo-payments.csv
+│
+├── scripts/
+│   └── generate-demo-data.js
+│
+└── docs/
+├── architecture.md
+├── ai.md
+├── demo-script.md
+└── what-broke.md
+
+You may simplify the structure if required for speed, but maintain clear separation between frontend, backend, reconciliation logic, and AI logic.
+
+---
+
+# 47. TECHNOLOGY
+
+Prioritize speed and reliability.
+
+Use a simple stack that can be built in one day.
+
+Recommended:
+
+Frontend:
+
+HTML
+CSS
+Vanilla JavaScript
+
+Backend:
+
+Node.js
+Express
+
+Data:
+
+CSV / in-memory state for MVP
+
+AI:
+
+LLM API through backend
+
+Payments:
+
+Razorpay API integration layer
+
+Do NOT introduce:
+
+microservices
+
+Kubernetes
+
+complex databases
+
+authentication systems
+
+Redis
+
+message queues
+
+complex cloud infrastructure
+
+unless absolutely necessary.
+
+This is a one-day hackathon MVP.
+
+---
+
+# 48. DATABASE
+
+A database is optional.
+
+For the MVP, use:
+
+in-memory state
+
+and demo CSV files.
+
+If persistent storage is needed, use SQLite.
+
+Do not waste hackathon time building database infrastructure.
+
+---
+
+# 49. API ENDPOINTS
+
+Implement approximately:
+
+GET /api/health
+
+POST /api/reconcile
+
+GET /api/reconciliation/summary
+
+GET /api/issues
+
+GET /api/issues/:id
+
+GET /api/orders
+
+GET /api/payments
+
+POST /api/agent
+
+POST /api/issues/:id/resolve
+
+POST /api/issues/:id/review
+
+POST /api/import
+
+GET /api/report
+
+Keep APIs simple.
+
+---
+
+# 50. RESPONSE FORMAT
+
+Example:
+
+GET /api/reconciliation/summary
+
+{
+"orders": 127,
+"payments": 122,
+"matched": 108,
+"issues": 14,
+"unresolvedAmount": 31450,
+"refundAmount": 8450,
+"healthScore": 92
+}
+
+---
+
+# 51. AI ENDPOINT
+
+POST:
+
+/api/agent
+
+Request:
+
+{
+"message": "What is the biggest unresolved issue?"
+}
+
+Backend supplies the AI with:
+
+* reconciliation summary
+* relevant issue records
+* relevant order/payment records
+* conversation context
+
+The AI returns:
+
+{
+"answer": "...",
+"references": [
+"ISS-1042"
+],
+"actions": []
+}
+
+---
+
+# 52. AI REFERENCES
+
+When AI references a record, make it clickable.
+
+Example:
+
+“ORD-1043”
+
+Clicking it should open the order.
+
+Likewise:
+
+“pay_xxxx”
+
+should open payment details.
+
+This creates a much more convincing agent experience.
+
+---
+
+# 53. REPORT GENERATION
+
+Create a report from deterministic data.
+
+The AI generates only the narrative summary.
+
+Do not allow AI to calculate financial totals.
+
+For example:
+
+Total unresolved amount must come from JavaScript calculations.
+
+AI may say:
+
+“Several high-value discrepancies remain unresolved.”
+
+but the number displayed must be calculated by the application.
+
+---
+
+# 54. ACCESSIBILITY
+
+Use:
+
+semantic HTML
+
+keyboard navigation
+
+visible focus states
+
+ARIA labels where appropriate
+
+sufficient contrast
+
+Do not rely only on color to communicate severity.
+
+---
+
+# 55. PERFORMANCE
+
+The dashboard should load quickly.
+
+Avoid:
+
+large libraries
+
+huge bundles
+
+unnecessary dependencies
+
+external images
+
+complex animations
+
+All demo data should load almost instantly.
+
+---
+
+# 56. ANIMATIONS
+
+Use subtle animations only.
+
+Examples:
+
+page transitions
+
+number counting
+
+issue status updates
+
+AI response appearance
+
+Do not animate everything.
+
+---
+
+# 57. EMPTY STATES
+
+Create professional empty states.
+
+Example:
+
+“No reconciliation data yet.”
+
+“Load a demo dataset or upload your payment records to begin.”
+
+Button:
+
+**Load Demo Dataset**
+
+---
+
+# 58. LOADING STATES
+
+Create skeleton/loading states for:
+
+Dashboard
+
+Reconciliation
+
+AI Agent
+
+Issue investigation
+
+Do not leave blank screens.
+
+---
+
+# 59. AI AGENT UI
+
+The agent should feel integrated into the product rather than like ChatGPT pasted into a sidebar.
+
+Include:
+
+Conversation
+
+Suggested questions
+
+Referenced records
+
+Reasoning summary
+
+Recommended actions
+
+Example suggested prompts:
+
+“What's wrong?”
+
+“Show high-risk issues”
+
+“How much is unresolved?”
+
+“Explain the largest discrepancy”
+
+“Prepare a finance summary”
+
+---
+
+# 60. SUGGESTED PROMPTS
+
+When opening the agent:
+
+### Try asking
+
+“What needs my attention?”
+
+“Where is the largest mismatch?”
+
+“Give me a reconciliation summary.”
+
+“Show me suspicious payments.”
+
+“Which issues can be resolved quickly?”
+
+---
+
+# 61. PRODUCT COPY
+
+Keep copy concise.
+
+Avoid marketing fluff inside the application.
+
+Use language such as:
+
+“14 issues require attention.”
+
+“₹31,450 unresolved.”
+
+“Last reconciled 2 minutes ago.”
+
+“AI investigation available.”
+
+---
+
+# 62. SETTINGS
+
+Create a simple Settings page.
+
+Sections:
+
+Data Source
+
+AI Configuration
+
+Demo Mode
+
+System Status
+
+Do not create unnecessary settings.
+
+---
+
+# 63. SYSTEM STATUS
+
+Show:
+
+Reconciliation Engine
+
+Operational
+
+AI Agent
+
+Operational
+
+Data Source
+
+Demo Dataset
+
+Razorpay Connection
+
+Not configured
+
+This creates confidence during the demo.
+
+---
+
+# 64. README
+
+Create a professional README.
+
+Include:
+
+# SETTLE
+
+One-line description.
+
+## Problem
+
+Explain payment reconciliation.
+
+## Solution
+
+Explain SETTLE.
+
+## Features
+
+List features.
+
+## Architecture
+
+Explain:
+
+Frontend
+
+Backend
+
+Reconciliation engine
+
+AI agent
+
+Razorpay integration
+
+## AI Architecture
+
+Explain why AI is meaningful.
+
+## Running locally
+
+Provide exact commands.
+
+Example:
+
+npm install
+
+npm run dev
+
+## Environment Variables
+
+Explain .env.
+
+## Demo
+
+Explain how to load demo data.
+
+## Razorpay Integration
+
+Explain test credentials.
+
+## Limitations
+
+Be honest.
+
+## Future
+
+Mention:
+
+automatic reconciliation
+
+accounting integrations
+
+ERP integrations
+
+email workflows
+
+human approval queues
+
+---
+
+# 65. ARCHITECTURE DOCUMENT
+
+Create docs/architecture.md.
+
+Include an ASCII architecture diagram.
+
+Example:
+
+USER
+
+↓
+
+SETTLE UI
+
+↓
+
+API SERVER
+
+↓
+
+RECONCILIATION ENGINE
+
+↓
+
+┌──────────────┬──────────────┐
+ORDERS         PAYMENTS
+
+↓
+
+ISSUE DETECTION
+
+↓
+
+AI AGENT
+
+↓
+
+EXPLANATION + RECOMMENDATION
+
+↓
+
+HUMAN APPROVAL
+
+---
+
+# 66. AI DOCUMENTATION
+
+Create docs/ai.md.
+
+Explain:
+
+Why deterministic rules are used
+
+Why LLM is used
+
+How context is created
+
+How hallucinations are minimized
+
+How structured output works
+
+How fallback mode works
+
+Why AI does not directly execute financial actions
+
+This should be useful for judges.
+
+---
+
+# 67. WHAT BROKE DOCUMENT
+
+Create:
+
+docs/what-broke.md
+
+Do not pretend everything worked perfectly.
+
+Document realistic development challenges such as:
+
+* CSV schema inconsistencies
+* AI structured output failures
+* API timeout
+* duplicate transaction detection
+* frontend/backend state synchronization
+
+For each:
+
+Problem
+
+Cause
+
+Fix
+
+Lesson
+
+This directly addresses the buildathon requirement:
+
+**What broke, and how did you get out?**
+
+---
+
+# 68. DEMO SCRIPT
+
+Create:
+
+docs/demo-script.md
+
+The 5-minute presentation should follow:
+
+## 0:00–0:30
+
+Problem
+
+“Payment systems tell businesses whether money moved.
+
+They don't always tell businesses whether their internal records agree with that money.”
+
+Introduce SETTLE.
+
+---
+
+## 0:30–1:00
+
+Load demo dataset.
+
+Show:
+
+127 orders
+
+122 payments
+
+108 matched
+
+14 issues
+
+₹31,450 unresolved
+
+---
+
+## 1:00–2:00
+
+Open Issues.
+
+Filter:
+
+High severity.
+
+Open largest issue.
+
+Show deterministic facts.
+
+---
+
+## 2:00–3:00
+
+Open AI Agent.
+
+Ask:
+
+“What needs my attention?”
+
+Then:
+
+“Explain the biggest issue.”
+
+Then:
+
+“What should I do?”
+
+Show references to actual records.
+
+---
+
+## 3:00–4:00
+
+Resolve/review an issue.
+
+Show dashboard updating.
+
+Demonstrate:
+
+Before:
+
+14 open
+
+After:
+
+13 open
+
+---
+
+## 4:00–4:30
+
+Explain architecture.
+
+Data
+
+↓
+
+Reconciliation engine
+
+↓
+
+AI investigation
+
+↓
+
+Human approval
+
+---
+
+## 4:30–5:00
+
+Explain why this matters.
+
+Close with:
+
+**SETTLE turns payment reconciliation from a spreadsheet task into an AI-assisted operations workflow.**
+
+---
+
+# 69. PITCH NARRATIVE
+
+The pitch should NOT be:
+
+“We built an AI chatbot for payments.”
+
+The pitch should be:
+
+“Businesses already have payment data. The painful part begins after the payment succeeds — when they have to determine whether that payment actually reconciles with their business records.”
+
+Then introduce SETTLE.
+
+---
+
+# 70. USP
+
+Primary USP:
+
+### AI doesn't just answer questions about transactions.
+
+### It investigates reconciliation problems.
+
+This distinction must be visible in the product and pitch.
+
+---
+
+# 71. WHAT MAKES IT AN AGENT
+
+Explicitly demonstrate:
+
+OBSERVE
+
+Reads reconciliation state.
+
+↓
+
+REASON
+
+Identifies important discrepancies.
+
+↓
+
+INVESTIGATE
+
+Retrieves relevant records.
+
+↓
+
+RECOMMEND
+
+Suggests what should happen.
+
+↓
+
+ACT
+
+Prepares/executes safe internal workflow actions after human approval.
+
+This should be a major part of the pitch.
+
+---
+
+# 72. DO NOT OVERBUILD
+
+Do NOT spend time implementing:
+
+full authentication
+
+production accounting integrations
+
+real refunds
+
+multi-tenant architecture
+
+enterprise permissions
+
+complex databases
+
+mobile application
+
+native application
+
+advanced analytics
+
+real-time webhooks
+
+unless the core MVP is already finished.
+
+A polished 80% product is better than an unfinished 150% product.
+
+---
+
+# 73. DEVELOPMENT PRIORITY
+
+Build in this order:
+
+### P0 — MUST WORK
+
+1. Dashboard
+2. Demo dataset
+3. Reconciliation engine
+4. Issue detection
+5. Issue details
+6. AI agent
+7. AI explanations
+8. Resolve/review workflow
+
+### P1
+
+9. CSV upload
+10. Reports
+11. Search/filter
+12. Payment/order pages
+
+### P2
+
+13. Razorpay API integration
+14. Export
+15. Additional polish
+
+If time becomes limited, stop adding features and polish P0.
+
+---
+
+# 74. DEMO RELIABILITY RULE
+
+The following must work with NO external API credentials:
+
+Load Demo Dataset
+
+↓
+
+Run Reconciliation
+
+↓
+
+View Issues
+
+↓
+
+Open Issue
+
+↓
+
+Use fallback AI explanations
+
+↓
+
+Resolve Issue
+
+The project must never depend on the internet for its core demo.
+
+AI API enhances the experience but must not be a single point of failure.
+
+---
+
+# 75. FINAL QUALITY BAR
+
+Before considering the project complete, test:
+
+1. npm install works
+2. npm run dev works
+3. frontend opens
+4. backend starts
+5. demo dataset loads
+6. reconciliation works
+7. issue counts are correct
+8. issue details work
+9. AI works when API key exists
+10. fallback works when AI unavailable
+11. search works
+12. filters work
+13. resolve works
+14. dashboard updates
+15. report generates
+16. no console errors
+17. no broken buttons
+18. no horizontal overflow
+19. no exposed secrets
+20. README works
+21. demo script works
+
+---
+
+# 76. FINAL TEST SCENARIO
+
+Run exactly this scenario before finishing.
+
+Open SETTLE.
+
+Click:
+
+**Load Demo Dataset**
+
+Click:
+
+**Run Reconciliation**
+
+Confirm dashboard shows realistic numbers.
+
+Open:
+
+**Issues**
+
+Filter:
+
+**High**
+
+Open highest-value issue.
+
+Read:
+
+Verified data
+
+AI investigation
+
+Recommended action
+
+Open AI Agent.
+
+Ask:
+
+“What needs my attention?”
+
+Ask:
+
+“Explain the largest issue.”
+
+Ask:
+
+“How much money is unresolved?”
+
+Click referenced issue.
+
+Mark it:
+
+Reviewed.
+
+Return to dashboard.
+
+Verify metrics update.
+
+Then generate report.
+
+If every step works smoothly, the MVP is ready.
+
+---
+
+# 77. IMPORTANT IMPLEMENTATION RULE
+
+Do not stop after generating the UI.
+
+The deliverable must be a genuinely working application.
+
+Every visible button should either:
+
+* perform a real action,
+* navigate somewhere meaningful,
+* trigger a real API call,
+* update application state,
+* or provide a useful interaction.
+
+No fake buttons.
+
+No placeholder lorem ipsum.
+
+No “coming soon” core features.
+
+---
+
+# 78. CODE QUALITY
+
+Keep the code understandable.
+
+Prefer:
+
+small modules
+
+clear functions
+
+meaningful names
+
+comments around AI logic
+
+centralized state
+
+centralized API handling
+
+No giant 3,000-line JavaScript file.
+
+---
+
+# 79. FINAL DELIVERABLE
+
+At the end, provide:
+
+1. Complete folder structure
+2. All source files
+3. Working frontend
+4. Working backend
+5. Demo dataset
+6. Demo data generator
+7. AI agent
+8. Reconciliation engine
+9. Optional Razorpay integration
+10. Environment configuration
+11. README
+12. Architecture documentation
+13. AI documentation
+14. What-broke documentation
+15. 5-minute demo script
+16. Exact setup commands
+
+The application must be ready for:
+
+GitHub
+
+Local demonstration
+
+Razorpay Buildathon submission
+
+5-minute pitch video
+
+---
+
+# 80. FINAL INSTRUCTION TO THE AI BUILDER
+
+You are not being asked to produce a concept.
+
+You are being asked to build the actual MVP.
+
+Start by creating the complete project structure.
+
+Then implement the reconciliation engine.
+
+Then implement the backend.
+
+Then implement the frontend.
+
+Then implement the AI agent.
+
+Then connect everything.
+
+Then generate the demo dataset.
+
+Then test the complete user journey.
+
+Then fix every broken interaction you encounter.
+
+Do not stop at scaffolding.
+
+Do not return pseudocode.
+
+Do not leave TODO comments for core functionality.
+
+Do not replace working functionality with mock screenshots.
+
+The final result must be a functioning product that can be launched locally and demonstrated end-to-end.
+
+Optimize for:
+
+**working > impressive**
+
+**depth > feature count**
+
+**AI workflow > chatbot**
+
+**reliability > complexity**
+
+**demoability > infrastructure**
+
+The final product should make a Razorpay judge think:
+
+> “This isn't just an AI wrapper. This actually takes a messy operational problem and turns it into a workflow.”
+
+Build SETTLE accordingly.
+
+
+do not use any hyphen or em dashes in the visible content ... make it fully working in one go ... all the content, data and if something require ai api key then mention that here will be api key but for now use built in replies and data to mimic role of api
